@@ -9,3 +9,8 @@ let config = window.mumbleWebConfig // eslint-disable-line no-unused-vars
 // config.defaults.theme = 'MetroMumbleDark'
 config.defaults.address = 'localhost'
 config.defaults.port = '8089/demo'
+
+config.connectDialog.address = false
+config.connectDialog.port = false
+config.connectDialog.token = false
+config.connectDialog.channelName = false
