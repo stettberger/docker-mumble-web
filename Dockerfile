@@ -1,15 +1,41 @@
-FROM ubuntu:14.04
-MAINTAINER Knut Ahlers <knut@ahlers.me>
+FROM nginx
+MAINTAINER Christian Dietrich <stettberger@dokucode.de
 
+# Mumble
 RUN useradd -u 1000 mumble \
- && apt-get update \
- && apt-get install -y mumble-server \
- && mkdir /data && chown 1000 /data
+        && apt-get update \
+        && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+        dumb-init \
+        procps \
+        iproute2 \
+        wget \
+        unzip \
+        npm \
+        git \
+        mumble-server \
+        ca-certificates \
+        python3-websockify \
+        python3-jinja2 \
+        websockify \
+        && rm -rf /var/lib/apt/lists/*
 
-ADD mumble-server.ini /config/mumble-server.ini
 
-VOLUME ["/data", "/config"]
+# Webserver and Websocksify
+RUN ln -sf /dev/stdout /var/log/nginx/static.log
+RUN mkdir /app \
+        && wget https://github.com/Johni0702/mumble-web/archive/master.zip -O /app/master.zip \
+        && unzip /app/master.zip  -d /app \
+        && rm /app/master.zip \
+        && cd /app/mumble-web-master \
+        && npm install \
+        && npm run build
+EXPOSE 80
+
+# Information to run the container
+VOLUME ["/data"]
 EXPOSE 64738/udp
+EXPOSE 64738/tcp
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/context/init.sh"]
 
-USER mumble
-ENTRYPOINT ["/usr/sbin/murmurd", "-fg", "-ini", "/config/mumble-server.ini"]
+ADD . /context/

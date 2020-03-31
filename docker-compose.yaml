@@ -1,0 +1,6 @@
+version: "3"
+services:
+  mumble:
+    build: "."
+    ports:
+      - "8089:80"
