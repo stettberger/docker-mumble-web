@@ -1,5 +1,5 @@
 FROM nginx
-MAINTAINER Christian Dietrich <stettberger@dokucode.de
+MAINTAINER Christian Dietrich <stettberger@dokucode.de>
 
 # Mumble
 RUN useradd -u 1000 mumble \

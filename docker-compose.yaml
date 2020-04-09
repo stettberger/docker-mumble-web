@@ -3,12 +3,22 @@ services:
   mumble:
     build: "."
     environment:
-      - VIRTUAL_HOST=test.my-evh.de
-      - MUMBLE_PORT=64738
-      - WEBSOCKET_PORT=64737
-      #- LETSENCRYPT_HOST=test.my-evh.de
-      #- LETSENCRYPT_EMAIL=digitales@ecovillage-hannover.de
-      #- SSL_CERT_PATH=/tmp/ssl/fullchain.pem
-      #- SSL_KEY_PATH=/tmp/ssl/key.pem
+      # - VIRTUAL_HOST=example.com
+      ## Mumble Server
+      ## Option A: Start your own
+      # - MUMBLE_ENABLE=1
+      # - MUMBLE_PORT=64738
+      ##Option B: Use an Existing one
+      # - MUMBLE_ENABLE=0
+      # - MUMBLE_HOST=example.com
+      # - MUMBLE_PORT=3333
+      ## Websockify
+      # - WEBSOCKET_PORT=64737
+      ## SSL
+      # - SSL_CERT_PATH=/tmp/ssl/fullchain.pem
+      # - SSL_KEY_PATH=/tmp/ssl/key.pem
+      ## Nginx 
+      # - NGINX_SSL=true
     ports:
-      - "8089:80"
+      - "80:80"
+      - 443:443 # requires NGINX_SSL=true

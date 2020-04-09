@@ -3,7 +3,7 @@ server {
         server_name {{VIRTUAL_HOST}}
         {% endif %}
         
-        {% if NGINX_SSL %}
+        {% if NGINX_SSL == "true" %}
         listen 443 default_server ssl;
         ssl_certificate {{ SSL_CERT_PATH }};
         ssl_certificate_key {{ SSL_KEY_PATH }};
