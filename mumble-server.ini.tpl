@@ -88,21 +88,21 @@ pidfile=/var/run/mumble-server/mumble-server.pid
 welcometext="<br />Welcome to this server running <b>Murmur</b>.<br />Enjoy your stay!<br />"
 
 # Port to bind TCP and UDP sockets to.
-port=64738
+port={{MUMBLE_PORT}}
 
 # Specific IP or hostname to bind to.
 # If this is left blank (default), Murmur will bind to all available addresses.
 host=0.0.0.0
 
 # Password to join server.
-serverpassword=
+serverpassword={{MUMBLE_SERVER_PASSWORD}}
 
 # Maximum bandwidth (in bits per second) clients are allowed
 # to send speech at.
 bandwidth=72000
 
 # Maximum number of concurrent clients allowed.
-users=100
+users={{MUMBLE_MAX_USER or "100"}}
 
 # Amount of users with Opus support needed to force Opus usage, in percent.
 # 0 = Always enable Opus, 100 = enable Opus if it's supported by all clients.
@@ -153,12 +153,14 @@ users=100
 # adjust the registerName variable.
 # See http://developer.apple.com/networking/bonjour/index.html for more information
 # about bonjour.
-#bonjour=True
+bonjour=False
 
 # If you have a proper SSL certificate, you can provide the filenames here.
 # Otherwise, Murmur will create it's own certificate automatically.
-#sslCert=
-#sslKey=
+{% if SSL_CERT_PATH %}
+sslCert={{SSL_CERT_PATH}}
+sslKey={{SSL_KEY_PATH}}
+{% endif %}
 
 # If Murmur is started as root, which user should it switch to?
 # This option is ignored if Murmur isn't started with root privileges.

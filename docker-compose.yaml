@@ -2,5 +2,13 @@ version: "3"
 services:
   mumble:
     build: "."
+    environment:
+      - VIRTUAL_HOST=test.my-evh.de
+      - MUMBLE_PORT=64738
+      - WEBSOCKET_PORT=64737
+      #- LETSENCRYPT_HOST=test.my-evh.de
+      #- LETSENCRYPT_EMAIL=digitales@ecovillage-hannover.de
+      #- SSL_CERT_PATH=/tmp/ssl/fullchain.pem
+      #- SSL_KEY_PATH=/tmp/ssl/key.pem
     ports:
       - "8089:80"

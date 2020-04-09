@@ -1,14 +1,21 @@
 server {
+        {% if VIRTUAL_HOST %}
+        server_name {{VIRTUAL_HOST}}
+        {% endif %}
+        
+        {% if NGINX_SSL %}
+        listen 443 default_server ssl;
+        ssl_certificate {{ SSL_CERT_PATH }};
+        ssl_certificate_key {{ SSL_KEY_PATH }};
+        {% else %}
         listen 80 default_server;
-        # server_name voice.example.com;
-        # ssl_certificate /etc/letsencrypt/live/voice.example.com/fullchain.pem;
-        # ssl_certificate_key /etc/letsencrypt/live/voice.example.com/privkey.pem;
+        {% endif %}
 
         location / {
                 root /app/mumble-web-master/dist;
         }
-        location /demo {
-                proxy_pass http://localhost:64737;
+        location /mumble {
+                proxy_pass http://localhost:{{WEBSOCKET_PORT}};
                 proxy_http_version 1.1;
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection $connection_upgrade;

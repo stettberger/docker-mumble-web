@@ -29,7 +29,9 @@ RUN mkdir /app \
         && cd /app/mumble-web-master \
         && npm install \
         && npm run build
-EXPOSE 80
+EXPOSE 80/tcp
+EXPOSE 443/tcp
+
 
 # Information to run the container
 VOLUME ["/data"]

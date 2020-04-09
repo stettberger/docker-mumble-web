@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if [ -z "$MUMBLE_PORT" ]; then
+    export MUMBLE_PORT=64738
+fi
+
+if [ -z "$WEBSOCKET_PORT" ]; then
+    export WEBSOCKET_PORT=64737
+fi
+
+
 mkdir -p /config /data
 
 chown mumble /data
@@ -14,7 +23,6 @@ rm /app/mumble-web-master/dist/config.local.js
 
 su mumble -c "/usr/sbin/murmurd -fg -ini /config/mumble-server.ini" &
 
-# websockify --ssl-target 64737 localhost:64738 &
-websockify 64737 localhost:64738 &
+websockify --ssl-target ${WEBSOCKET_PORT} localhost:${MUMBLE_PORT} &
 
 nginx -g "daemon off;"
